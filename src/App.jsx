@@ -125,7 +125,7 @@ function App() {
         {/* Scroll down indicator */}
         <button
           onClick={handleScrollDown}
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2 text-white flex flex-col items-center cursor-pointer transition-all duration-300 hover:opacity-80 hover:translate-y-1 animate-pulse"
+          className="absolute bottom-8 sm:mb-2 mb-8 left-1/2 transform -translate-x-1/2 text-white flex flex-col items-center cursor-pointer transition-all duration-300 hover:opacity-80 hover:translate-y-1 animate-pulse"
           aria-label="Scroll down to content"
         >
           <span className="mb-2 font-medium text-sm sm:text-base">
