@@ -9,3 +9,27 @@ body,
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
+
+/* Custom responsive styles */
+@media (max-width: 640px) {
+  .snap-y {
+    scroll-snap-type: y proximity;
+  }
+}
+
+@media (min-width: 641px) {
+  .snap-y {
+    scroll-snap-type: y mandatory;
+  }
+}
+
+/* Optimize for smaller screens */
+@media (max-height: 700px) {
+  h1 {
+    margin-bottom: 0.5rem !important;
+  }
+  
+  p.text-xl {
+    margin-bottom: 1rem !important;
+  }
+}
