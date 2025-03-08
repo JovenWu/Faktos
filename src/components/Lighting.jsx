@@ -37,7 +37,7 @@ const Lighting = () => {
     };
     
     // Start the effect after a small delay
-    setTimeout(runNextFlicker, 500);
+    setTimeout(runNextFlicker, 1000);
     
     return () => {
       // Cleanup
@@ -65,12 +65,12 @@ const Lighting = () => {
         distance={0}
       />
       {/* Point lights that flicker */}
-      <pointLight position={[-1.8, 1, -0.5]} color={"#3B00FF"} intensity={5 * pointLightIntensity} />
-      <pointLight position={[1.8, 1, -0.5]} color={"#3B00FF"} intensity={5 * pointLightIntensity} />
-      <pointLight position={[0, 1, -0.5]} color={"#dc4dff"} intensity={3 * pointLightIntensity} />
-      <pointLight position={[-1.8, 1, 1.5]} color={"#3B00FF"} intensity={5 * pointLightIntensity} />
-      <pointLight position={[1.8, 1, 1.5]} color={"#3B00FF"} intensity={5 * pointLightIntensity} />
-      <pointLight position={[0, 1, 1.5]} color={"#dc4dff"} intensity={3 * pointLightIntensity} />
+      <pointLight position={[-1.8, 1, -0.5]} color={"#3B00FF"} intensity={7 * pointLightIntensity} />
+      <pointLight position={[1.8, 1, -0.5]} color={"#3B00FF"} intensity={7 * pointLightIntensity} />
+      <pointLight position={[0, 1, -0.5]} color={"#FAFFB6"} intensity={3 * pointLightIntensity} />
+      <pointLight position={[-1.8, 1, 1.5]} color={"#3B00FF"} intensity={7 * pointLightIntensity} />
+      <pointLight position={[1.8, 1, 1.5]} color={"#3B00FF"} intensity={7 * pointLightIntensity} />
+      <pointLight position={[0, 1, 1.5]} color={"#FAFFB6"} intensity={3 * pointLightIntensity} />
       
       {/* Directional light only turns on at the end */}
       <directionalLight
@@ -78,6 +78,7 @@ const Lighting = () => {
         intensity={0.1 * spotAndDirLightIntensity}
         color={"#FFDC82"}
       />
+
     </>
   );
 };
