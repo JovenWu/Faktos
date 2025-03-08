@@ -3,7 +3,7 @@ import { Canvas } from "@react-three/fiber";
 import "./App.css";
 import { OrbitControls } from "@react-three/drei";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";
-import Lighting from "./components/lighting";
+import Lighting from "./components/Lighting";
 import Faktos from "./components/Faktos";
 import FactCard from "./components/FactCard";
 import { BiChevronDown } from "react-icons/bi";
