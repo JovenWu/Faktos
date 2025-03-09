@@ -33,3 +33,9 @@ body,
     margin-bottom: 1rem !important;
   }
 }
+
+@supports (-webkit-touch-callout: none) {
+  html, body {
+    -webkit-overflow-scrolling: touch !important;
+  }
+}
