@@ -8,8 +8,8 @@ import ResponsiveCamera from "./ResponsiveCamemra";
 
 const Scene3D = ({ windowSize, isContentVisible, enabled = true }) => {
   // Only calculate these values when props change
-  const minDistance = windowSize.width < 640 ? 3.2 : windowSize.width < 768 ? 2.8 : windowSize.width < 1024 ? 2.5 : 2;
-  const maxDistance = windowSize.width < 640 ? 9 : windowSize.width < 768 ? 8 : windowSize.width < 1024 ? 5 : 3;
+  const minDistance = windowSize.width < 640 ? 2.8 : windowSize.width < 768 ? 2.6 : windowSize.width < 1024 ? 2.5 : 2;
+  const maxDistance = windowSize.width < 640 ? 7 : windowSize.width < 768 ? 7 : windowSize.width < 1024 ? 5 : 3;
 
   if (!enabled) {
     return null; // Don't render anything if disabled
@@ -19,13 +19,13 @@ const Scene3D = ({ windowSize, isContentVisible, enabled = true }) => {
     <Canvas
       camera={{
         position: [0, 0, 2],
-        fov: windowSize.width < 768 ? 60 : 50,
+        fov: windowSize.width < 768 ? 55 : 50,
       }}
-      shadows={windowSize.width < 1280}
-      dpr={[1, windowSize.width > 1440 ? 1.5 : 2]}
+      shadows={true}
+      dpr={[1, windowSize.width < 640 ? 1.5 : windowSize.width > 1440 ? 1.5 : 2]}
       gl={{
         powerPreference: "high-performance",
-        antialias: windowSize.width < 1280,
+        antialias: true,
         alpha: false,
       }}
       performance={{ min: 0.5 }}
@@ -46,12 +46,14 @@ const Scene3D = ({ windowSize, isContentVisible, enabled = true }) => {
         />
         <Lighting />
         <Faktos />
-        <ambientLight intensity={0.1} />
+        <ambientLight intensity={0.2} />
         <EffectComposer
           enabled={!isContentVisible}
           multisampling={
-            windowSize.width < 768
-              ? 0
+            windowSize.width < 640
+              ? 1
+              : windowSize.width < 768
+              ? 2
               : windowSize.width < 1024
               ? 2
               : windowSize.width < 1440
@@ -63,10 +65,10 @@ const Scene3D = ({ windowSize, isContentVisible, enabled = true }) => {
           <Bloom
             luminanceThreshold={0}
             luminanceSmoothing={0.2}
-            height={windowSize.width < 768 ? 100 : 150}
-            width={windowSize.width < 768 ? 100 : 150}
-            opacity={0.2}
-            intensity={1.0}
+            height={windowSize.width < 640 ? 120 : windowSize.width < 768 ? 150 : 150}
+            width={windowSize.width < 640 ? 120 : windowSize.width < 768 ? 150 : 150}
+            opacity={0.25}
+            intensity={1.2}
           />
         </EffectComposer>
       </Suspense>
