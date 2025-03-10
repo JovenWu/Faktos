@@ -100,6 +100,10 @@ function App() {
     introductionRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  const handleGetFact = () => {
+    contentRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   // Calculate responsive values based on window size
   const minDistance =
     windowSize.width < 640
@@ -160,13 +164,11 @@ function App() {
                 Uncover Fascinating Facts You Never Knew – Follow Us for Daily
                 Mind-Blowing Insights!
               </h1>
-              <a
-                className="mt-6 sm:mt-8 bg-amber-200 px-4 sm:px-6 py-2 sm:py-3 w-32 rounded-full flex items-center justify-center gap-2 font-medium text-gray-800 hover:bg-amber-300 transition-colors"
-                href="https://www.tiktok.com/@faktoss.id?_t=ZS-8uVzHknj5su&_r=1"
-                target="_blank"
-              >
-                Follow Us!
-              </a>
+              <button
+                className="mt-6 sm:mt-8 bg-amber-200 px-4 sm:px-6 py-2 sm:py-3 w-42 rounded-full flex items-center justify-center gap-2 font-medium text-gray-800 hover:bg-amber-300 transition-colors"
+                onClick={handleGetFact}>
+                Get your fact!
+              </button>
             </div>
           </div>
           {/* Right column - Categories */}
