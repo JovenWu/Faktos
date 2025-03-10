@@ -1,4 +1,4 @@
-import React, { Suspense, memo, useState, useEffect } from "react";
+import React, { Suspense, memo } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
 import { Bloom, EffectComposer } from "@react-three/postprocessing";

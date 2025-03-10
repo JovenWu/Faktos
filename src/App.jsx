@@ -8,11 +8,13 @@ import History from "/HistoryAndCulture.jpg";
 import Science from "/ScienceAndTech.jpg";
 import Trivia from "/Trivia.webp";
 import Scene3D from "./components/Scene3D";
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   const contentRef = useRef(null);
   const introductionRef = useRef(null);
   const [isContentVisible, setIsContentVisible] = useState(false);
+  const [isIntroVisible, setIsIntroVisible] = useState(false);
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -52,7 +54,7 @@ function App() {
 
   // Observer to detect when content section is in view
   useEffect(() => {
-    const observer = new IntersectionObserver(
+    const contentObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
@@ -65,13 +67,31 @@ function App() {
       { threshold: 0.1 }
     );
 
+    const introObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsIntroVisible(true);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
     if (contentRef.current) {
-      observer.observe(contentRef.current);
+      contentObserver.observe(contentRef.current);
+    }
+
+    if (introductionRef.current) {
+      introObserver.observe(introductionRef.current);
     }
 
     return () => {
       if (contentRef.current) {
-        observer.unobserve(contentRef.current);
+        contentObserver.unobserve(contentRef.current);
+      }
+      if (introductionRef.current) {
+        introObserver.unobserve(introductionRef.current);
       }
     };
   }, []);
@@ -101,6 +121,7 @@ function App() {
 
   return (
     <div className="snap-y snap-mandatory h-screen overflow-y-scroll">
+      <Analytics />
       {/* 3D Scene Canvas */}
       <div className="w-full h-screen snap-start relative">
         <Scene3D windowSize={windowSize} isContentVisible={isContentVisible} />
@@ -117,10 +138,18 @@ function App() {
 
       <div
         ref={introductionRef}
-        className="w-full min-h-screen h-auto snap-start bg-[#FBFBFB] flex items-center justify-center px-4 sm:px-6 py-16 sm:py-20 md:py-24"
+        className="w-full min-h-screen h-auto snap-start bg-[#FBFBFB] flex items-center justify-center px-4 sm:px-6 py-16 sm:py-20 md:py-24 "
       >
         {/* Introduction */}
-        <div className="flex flex-col md:flex-row mx-auto w-full max-w-7xl bg-white shadow-lg rounded-lg overflow-hidden">
+        <div
+          className={`flex flex-col md:flex-row mx-auto w-full max-w-7xl bg-white shadow-lg rounded-lg overflow-hidden 
+          transition-all duration-1000 ease-in transform
+          ${
+            isIntroVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-20"
+          }`}
+        >
           {/* Left column - Introduction */}
           <div className="w-full md:w-1/3 px-4 sm:px-6 py-8 sm:py-10">
             <div className="max-w-md mx-auto md:ml-0">
@@ -140,7 +169,6 @@ function App() {
               </a>
             </div>
           </div>
-
           {/* Right column - Categories */}
           <div className="w-full md:w-2/3 bg-white p-4 sm:p-6 flex flex-col items-center justify-center">
             <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 w-full text-center md:text-left">
@@ -181,12 +209,12 @@ function App() {
       >
         <div
           className={`max-w-6xl mx-auto h-full flex flex-col justify-center py-8 sm:py-10 md:py-12
-    transition-all duration-1000 ease-out transform
-    ${
-      isContentVisible
-        ? "opacity-100 translate-y-0"
-        : "opacity-0 translate-y-16"
-    }`}
+          transition-all duration-1000 ease-out transform
+          ${
+            isContentVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-16"
+          }`}
         >
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-4 md:mb-6 text-center sm:text-left">
             FAKTOS
