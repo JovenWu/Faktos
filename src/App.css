@@ -28,14 +28,30 @@ body,
   h1 {
     margin-bottom: 0.5rem !important;
   }
-  
+
   p.text-xl {
     margin-bottom: 1rem !important;
   }
 }
 
 @supports (-webkit-touch-callout: none) {
-  html, body {
+  html,
+  body {
     -webkit-overflow-scrolling: touch !important;
+  }
+}
+
+@supports (-webkit-touch-callout: none) {
+  .h-screen {
+    height: -webkit-fill-available;
+  }
+
+  .min-h-screen {
+    min-height: -webkit-fill-available;
+  }
+
+  .snap-start {
+    scroll-snap-align: start;
+    padding-bottom: env(safe-area-inset-bottom, 20px);
   }
 }

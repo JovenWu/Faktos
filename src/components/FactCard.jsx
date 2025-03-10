@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { BiCopy } from "react-icons/bi";
 
 const FactCard = ({ fact, index, refreshFact, copyFactText, copyStatus }) => {
@@ -38,7 +38,7 @@ const FactCard = ({ fact, index, refreshFact, copyFactText, copyStatus }) => {
           } text-white py-1.5 sm:py-2 px-3 sm:px-4 rounded-lg text-center transition-all duration-200 shadow-lg flex items-center justify-center`}
           title="Copy fact to clipboard"
         >
-          <BiCopy size={window.innerWidth < 640 ? 16 : 20} />
+          <BiCopy size={20} />
           {copyStatus ? 
             <span className="ml-1 text-sm sm:text-base">Copied!</span> : 
             ""}
@@ -48,4 +48,4 @@ const FactCard = ({ fact, index, refreshFact, copyFactText, copyStatus }) => {
   );
 };
 
-export default FactCard;
+export default memo(FactCard);

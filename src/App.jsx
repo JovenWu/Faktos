@@ -1,24 +1,41 @@
 import React, { useRef, useState, useEffect } from "react";
-import { Canvas } from "@react-three/fiber";
 import "./App.css";
-import { OrbitControls } from "@react-three/drei";
-import { Bloom, EffectComposer } from "@react-three/postprocessing";
-import Lighting from "./components/Lighting";
-import Faktos from "./components/Faktos";
 import FactCard from "./components/FactCard";
 import { BiChevronDown } from "react-icons/bi";
 import { FaInstagram, FaTiktok } from "react-icons/fa6";
 import useFacts from "./hooks/useFacts";
-import ResponsiveCamera from "./components/ResponsiveCamemra";
+import History from "/HistoryAndCulture.jpg";
+import Science from "/ScienceAndTech.jpg";
+import Trivia from "/Trivia.webp";
+import Scene3D from "./components/Scene3D";
 
 function App() {
   const contentRef = useRef(null);
+  const introductionRef = useRef(null);
   const [isContentVisible, setIsContentVisible] = useState(false);
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
   const { facts, refreshFact, copyFactText, copyStatus } = useFacts();
+
+  const categories = [
+    {
+      id: 1,
+      name: "Science and Technology",
+      imageUrl: Science,
+    },
+    {
+      id: 2,
+      name: "Culture and History",
+      imageUrl: History,
+    },
+    {
+      id: 3,
+      name: "Trivia",
+      imageUrl: Trivia,
+    },
+  ];
 
   // Handle window resize
   useEffect(() => {
@@ -60,7 +77,7 @@ function App() {
   }, []);
 
   const handleScrollDown = () => {
-    contentRef.current?.scrollIntoView({ behavior: "smooth" });
+    introductionRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   // Calculate responsive values based on window size
@@ -86,77 +103,81 @@ function App() {
     <div className="snap-y snap-mandatory h-screen overflow-y-scroll">
       {/* 3D Scene Canvas */}
       <div className="w-full h-screen snap-start relative">
-        <Canvas
-          camera={{
-            position: [0, 0, 2],
-            fov: windowSize.width < 768 ? 60 : 50,
-          }}
-          shadows={windowSize.width < 1280} // Disable shadows on very large screens
-          dpr={[1, windowSize.width > 1440 ? 1.5 : 2]} // Limit pixel ratio
-          gl={{
-            powerPreference: "high-performance",
-            antialias: windowSize.width < 1280, // Disable on very large screens
-            alpha: false,
-          }}
-          performance={{ min: 0.5 }}
-        >
-          <ResponsiveCamera />
-          <OrbitControls
-            enableZoom={true}
-            enablePan={false}
-            minDistance={minDistance}
-            maxDistance={maxDistance}
-            enableDamping={true}
-            dampingFactor={0.02}
-            maxPolarAngle={Math.PI / 2}
-            minPolarAngle={Math.PI / 6}
-            minAzimuthAngle={-Math.PI / 8}
-            maxAzimuthAngle={Math.PI / 8}
-          />
-          <Lighting />
-          <Faktos />
-          <ambientLight intensity={0.1} />
-          <EffectComposer
-            enabled={isContentVisible ? false : true} // Disable effects when not in view
-            multisampling={
-              windowSize.width < 768
-                ? 0
-                : windowSize.width < 1024
-                ? 2
-                : windowSize.width < 1440
-                ? 3
-                : 2 // Reduce sampling on very large screens
-            }
-            disableNormalPass={true}
-          >
-            <Bloom
-              luminanceThreshold={0}
-              luminanceSmoothing={0.2}
-              height={windowSize.width < 768 ? 100 : 150} // Reduced from 200
-              width={windowSize.width < 768 ? 100 : 150} // Added width constraint
-              opacity={0.2}
-              intensity={1.0} // Explicitly set intensity
-            />
-          </EffectComposer>
-        </Canvas>
-
+        <Scene3D windowSize={windowSize} isContentVisible={isContentVisible} />
         {/* Scroll down indicator */}
         <button
           onClick={handleScrollDown}
-          className="absolute bottom-4 mb-4 sm:bottom-8 sm:mb-2 left-1/2 transform -translate-x-1/2 text-white flex flex-col items-center cursor-pointer transition-all duration-300 hover:opacity-80 hover:translate-y-1 animate-pulse"
+          className="absolute bottom-10 mb-4 sm:bottom-8 sm:mb-2 left-1/2 transform -translate-x-1/2 text-white flex flex-col items-center cursor-pointer transition-all duration-300 hover:opacity-80 hover:translate-y-1 animate-pulse"
           aria-label="Scroll down to content"
         >
-          <span className="mb-2 font-medium text-sm sm:text-base">
-            Scroll Down
-          </span>
+          <span className="mb-2 font-medium text-sm sm:text-base">Next</span>
           <BiChevronDown size={windowSize.width < 640 ? 24 : 32} />
         </button>
+      </div>
+
+      <div
+        ref={introductionRef}
+        className="w-full min-h-screen h-auto snap-start bg-[#FBFBFB] flex items-center justify-center px-4 sm:px-6 py-16 sm:py-20 md:py-24"
+      >
+        {/* Introduction */}
+        <div className="flex flex-col md:flex-row mx-auto w-full max-w-7xl bg-white shadow-lg rounded-lg overflow-hidden">
+          {/* Left column - Introduction */}
+          <div className="w-full md:w-1/3 px-4 sm:px-6 py-8 sm:py-10">
+            <div className="max-w-md mx-auto md:ml-0">
+              <p className="uppercase text-sm font-medium tracking-wider mb-2 text-gray-800">
+                Faktos
+              </p>
+              <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-serif leading-tight text-gray-900">
+                Uncover Fascinating Facts You Never Knew – Follow Us for Daily
+                Mind-Blowing Insights!
+              </h1>
+              <a
+                className="mt-6 sm:mt-8 bg-amber-200 px-4 sm:px-6 py-2 sm:py-3 w-32 rounded-full flex items-center justify-center gap-2 font-medium text-gray-800 hover:bg-amber-300 transition-colors"
+                href="https://www.tiktok.com/@faktoss.id?_t=ZS-8uVzHknj5su&_r=1"
+                target="_blank"
+              >
+                Follow Us!
+              </a>
+            </div>
+          </div>
+
+          {/* Right column - Categories */}
+          <div className="w-full md:w-2/3 bg-white p-4 sm:p-6 flex flex-col items-center justify-center">
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-4 w-full text-center md:text-left">
+              Explore Categories
+            </h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6 w-full">
+              {categories.map((category) => (
+                <div
+                  key={category.id}
+                  className="relative overflow-hidden rounded-lg shadow-md bg-gray-100 w-full h-40 sm:h-48 md:h-56 lg:h-64 mx-auto"
+                >
+                  <img
+                    src={category.imageUrl}
+                    alt={category.name}
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
+                    onError={(e) => {
+                      e.target.onerror = null;
+                      e.target.src =
+                        "https://placehold.co/600x400?text=" + category.name;
+                    }}
+                  />
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent p-2 sm:p-3 md:p-4">
+                    <h3 className="text-white font-medium text-sm sm:text-base md:text-lg text-center">
+                      {category.name}
+                    </h3>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
 
       {/* Main Content Section */}
       <div
         ref={contentRef}
-        className="min-h-screen w-full bg-gray-800 text-white p-4 sm:p-6 md:p-8 snap-start relative"
+        className="min-h-screen w-full bg-gray-800 text-white p-4 sm:p-6 md:p-8 pb-20 sm:pb-16 snap-start relative"
       >
         <div
           className={`max-w-6xl mx-auto h-full flex flex-col justify-center py-8 sm:py-10 md:py-12
@@ -192,7 +213,7 @@ function App() {
           className={`w-full flex flex-col items-center gap-1 sm:gap-2 md:gap-3
             transition-all duration-1000 ease-out 
             ${isContentVisible ? "opacity-100" : "opacity-0"}
-            absolute bottom-4 sm:bottom-6 left-1/2 transform -translate-x-1/2 pb-2 sm:pb-0`}
+            absolute bottom-10 sm:bottom-6 left-1/2 transform -translate-x-1/2 pb-8 sm:pb-0`}
         >
           <p className="text-white text-xs sm:text-sm font-medium">
             Follow us on:
